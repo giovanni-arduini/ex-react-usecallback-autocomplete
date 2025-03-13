@@ -46,10 +46,23 @@
             <section>
               <input
                 type="text"
+                list="suggestions"
                 name="search-bar"
+                id="search-bar"
                 value={search}
                 onChange={handleSearchChange}
               />
+              <datalist id="suggestions">
+                {suggestions
+                  ? suggestions.map((s, i) => {
+                      return (
+                        <option key={i} value={s.name}>
+                          {s.name}
+                        </option>
+                      );
+                    })
+                  : null}
+              </datalist>
             </section>
           </>
         );
