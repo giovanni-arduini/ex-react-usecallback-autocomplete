@@ -18,9 +18,22 @@
       const { createRoot } = ReactDOM;
 
       function App() {
+        const [search, setSearch] = useState("");
+
+        const handleSearchChange = (e) => {
+          return setSearch(e.target.value);
+        };
+
         return (
           <>
-            <h1>Hello World!</h1>
+            <section>
+              <input
+                type="text"
+                name="search-bar"
+                value={search}
+                onChange={handleSearchChange}
+              />
+            </section>
           </>
         );
       }
