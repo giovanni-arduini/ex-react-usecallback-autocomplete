@@ -14,7 +14,7 @@
     ></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
-      const { useState, useEffect } = React;
+      const { useState, useEffect, useCallback } = React;
       const { createRoot } = ReactDOM;
 
       function App() {
@@ -23,15 +23,15 @@
 
         console.log(suggestions);
 
-        // function debounce(callback, delay) {
-        //   let timer;
-        //   return (value) => {
-        //     clearTimeout(timer);
-        //     timer = setTimeout(() => {
-        //       callback(value);
-        //     }, delay);
-        //   };
-        // }
+        function debounce(callback, delay) {
+          let timer;
+          return (value) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+              callback(value);
+            }, delay);
+          };
+        }
 
         const handleSearchChange = (e) => {
           return setSearch(e.target.value);
@@ -47,8 +47,13 @@
             .catch((err) => console.log(err));
         };
 
+        const debouncedSearchSuggestions = useCallback(
+          debounce(searchSuggestions, 500),
+          []
+        );
+
         useEffect(() => {
-          searchSuggestions(search);
+          debouncedSearchSuggestions(search);
         }, [search]);
 
         return (
