@@ -23,6 +23,16 @@
 
         console.log(suggestions);
 
+        // function debounce(callback, delay) {
+        //   let timer;
+        //   return (value) => {
+        //     clearTimeout(timer);
+        //     timer = setTimeout(() => {
+        //       callback(value);
+        //     }, delay);
+        //   };
+        // }
+
         const handleSearchChange = (e) => {
           return setSearch(e.target.value);
         };
@@ -47,6 +57,7 @@
               <input
                 type="text"
                 list="suggestions"
+                placeholder="Cerca un prodotto"
                 name="search-bar"
                 id="search-bar"
                 value={search}
@@ -54,9 +65,9 @@
               />
               <datalist id="suggestions">
                 {suggestions
-                  ? suggestions.map((s, i) => {
+                  ? suggestions.map((s) => {
                       return (
-                        <option key={i} value={s.name}>
+                        <option key={s.id} value={s.name}>
                           {s.name}
                         </option>
                       );
