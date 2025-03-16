@@ -22,7 +22,7 @@
         const [suggestions, setSuggestions] = useState([]);
         const [selectedItem, setSelectedItem] = useState(null);
 
-        console.log(suggestions);
+        // console.log(suggestions);
 
         function debounce(callback, delay) {
           let timer;
@@ -58,6 +58,7 @@
             );
             const data = await res.json();
             setSelectedItem(data);
+            console.log(selectedItem);
           } catch (error) {
             console.error(error);
           }
@@ -72,7 +73,7 @@
           debouncedSearchSuggestions(search);
         }, [search]);
 
-        console.log(selectedItem);
+        // console.log(selectedItem);
 
         return (
           <>
@@ -86,21 +87,21 @@
                 value={search}
                 onChange={handleSearchChange}
               />
-              <datalist id="suggestions">
+              <div id="suggestions">
                 {suggestions
                   ? suggestions.map((s) => {
                       return (
-                        <option
+                        <p
                           key={s.id}
                           value={s.name}
                           onClick={() => fetchItemDetails(s.id)}
                         >
                           {s.name}
-                        </option>
+                        </p>
                       );
                     })
                   : null}
-              </datalist>
+              </div>
               {selectedItem && (
                 <div className="card">
                   <h3>{selectedItem.name}</h3>
