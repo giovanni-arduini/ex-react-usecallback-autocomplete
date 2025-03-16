@@ -20,6 +20,7 @@
       function App() {
         const [search, setSearch] = useState("");
         const [suggestions, setSuggestions] = useState([]);
+        const [selectedItem, setSelectedItem] = useState(null);
 
         console.log(suggestions);
 
@@ -50,6 +51,18 @@
           }
         };
 
+        async function fetchItemDetails(id) {
+          try {
+            const res = await fetch(
+              `https://boolean-spec-frontend.vercel.app/freetestapi/products/${id}`
+            );
+            const data = await res.json();
+            setSelectedItem(data);
+          } catch (error) {
+            console.error(error);
+          }
+        }
+
         const debouncedSearchSuggestions = useCallback(
           debounce(searchSuggestions, 500),
           []
@@ -58,6 +71,8 @@
         useEffect(() => {
           debouncedSearchSuggestions(search);
         }, [search]);
+
+        console.log(selectedItem);
 
         return (
           <>
@@ -75,13 +90,25 @@
                 {suggestions
                   ? suggestions.map((s) => {
                       return (
-                        <option key={s.id} value={s.name}>
+                        <option
+                          key={s.id}
+                          value={s.name}
+                          onClick={() => fetchItemDetails(s.id)}
+                        >
                           {s.name}
                         </option>
                       );
                     })
                   : null}
               </datalist>
+              {selectedItem && (
+                <div className="card">
+                  <h3>{selectedItem.name}</h3>
+                  <img src={selectedItem.image} alt={selectedItem.name} />
+                  <p>{selectedItem.description}</p>
+                  <p>{selectedItem.price}</p>
+                </div>
+              )}
             </section>
           </>
         );
